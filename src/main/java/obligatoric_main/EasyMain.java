@@ -11,7 +11,6 @@ import service.PlanerService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 @AllArgsConstructor
 public class EasyMain {
@@ -103,8 +102,10 @@ public class EasyMain {
 
         boolean istGeloescht = service.removeWandererVonGruppe(wandererId,gruppenId);
 
+
         if (istGeloescht) {
             System.out.println("Der Wanderer wurde erfolgreich aus der Gruppe entfernt");
+            System.out.println(easyRepo.getGruppeById(gruppenId));
         } else {
             System.out.println("Irgendwas hat nicht geklappt! Entweder er existiert nicht oder ein Fehler");
         }
@@ -138,10 +139,20 @@ public class EasyMain {
         String name = scanner.nextLine();
         System.out.println("Welcher Gruppe soll der Wanderer zugehören (Gebe die GruppenId an?");
         System.out.println(service.getAlleGruppen());
-        List<Gruppe> gruppen = new ArrayList<>();
         String gruppenId = scanner.nextLine();
 
+        Wanderer wanderer = easyRepo.getWandererNachName(name);
+        List<Gruppe> gruppen = wanderer.getGruppen();
         gruppen.add((Gruppe) easyRepo.getGruppeById(gruppenId));
+        wanderer.setGruppen(gruppen);
+        Gruppe gruppe = easyRepo.getGruppeById(gruppenId);
+        boolean added = gruppe.addWanderer(wanderer);
+        if(added) {
+            System.out.println(easyRepo.getGruppenMap().values().stream().toList());
+        }
+        else {
+            System.out.println("Something went wrong");
+        }
 
     }
 

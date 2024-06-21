@@ -27,7 +27,8 @@ public class Tour {
     }
 
     public boolean addGruppe(Gruppe gruppe){
-        if(gruppe.getMitglieder().size()+ getAktuelleTeilnehmerZahl()> maximaleTeilnehmer){
+        System.out.println(gruppe.getMitglieder().size());
+        if(gruppe.getMitglieder().size() + getAktuelleTeilnehmerZahl()> maximaleTeilnehmer){
             return false;
         }
         return teilnehmendeGruppen.add(gruppe);

@@ -27,7 +27,7 @@ public class Wanderer {
     }
 
     public String toString(){
-        StringBuilder str = new StringBuilder("Id: " + this.id + "\n");
+        StringBuilder str = new StringBuilder("Wanderer-id: " + this.id + "\n");
         str.append("Name: " + name).append(",\n");
         int j = 1;
         for(Gruppe gr : gruppen){

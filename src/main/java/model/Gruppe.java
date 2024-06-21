@@ -1,19 +1,22 @@
 package model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Document(collection = "gruppen")
-@AllArgsConstructor
 public class Gruppe {
     @Id
     private String id;
     private List<Wanderer> mitglieder;
+
+    public Gruppe(String id, List<Wanderer> mitglieder){
+        this.id = id;
+        this.mitglieder = new ArrayList<>(mitglieder);
+    }
+
 
     public boolean addWanderer(Wanderer wanderer){
         return mitglieder.add(wanderer);
@@ -34,6 +37,6 @@ public class Gruppe {
     }
     @Override
     public String toString(){
-        return "Id: " + this.id +"\nMitglieder: \n" + mitglieder.toString();
+        return "Gruppen-id: " + this.id +"\nMitglieder: \n" + mitglieder.toString();
     }
 }

@@ -89,14 +89,26 @@ public class EasyRepo {
     public boolean removeWandererAusGruppe(String wandererId, String gruppenId){
         Gruppe gruppe = gruppenMap.get(gruppenId);
 
-        return gruppe.entferneWanderer(wandererId);
 
+        boolean istGeloescht = gruppe.entferneWanderer(wandererId);
+        gruppenMap.remove(gruppenId);
+        gruppenMap.put(gruppenId,gruppe);
+        return istGeloescht;
     }
 
     public List<Wanderer> getWandererListeNachName(String name){
-        return getWandererMap().values().stream().filter(wanderer -> wanderer.getName().contains(name)).toList();
+        return getWandererMap()
+                .values()
+                .stream()
+                .filter(wanderer -> wanderer.getName().contains(name))
+                .toList();
     }
     public Wanderer getWandererNachName(String name){
-        return getWandererMap().values().stream().filter(wanderer -> wanderer.getName().equals(name)).toList().getFirst();
+        return getWandererMap()
+                .values()
+                .stream()
+                .filter(wanderer -> wanderer.getName().equals(name))
+                .toList()
+                .getFirst();
     }
 }
