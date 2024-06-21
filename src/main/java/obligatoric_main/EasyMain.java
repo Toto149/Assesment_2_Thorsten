@@ -2,6 +2,8 @@ package obligatoric_main;
 
 import lombok.AllArgsConstructor;
 import model.Gruppe;
+import model.Schwierigkeit;
+import model.Tour;
 import model.Wanderer;
 import repo.EasyRepo;
 import service.PlanerService;
@@ -14,14 +16,20 @@ import java.util.UUID;
 @AllArgsConstructor
 public class EasyMain {
     //Hier ist der tatsächlich Einstiegspunkt!
-    private static  EasyRepo easyRepo;
-    private static PlanerService service;
+    private static  EasyRepo easyRepo = new EasyRepo();
+    private static PlanerService service = new PlanerService();
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("""
+
+
+
+        boolean programmSollWeiterLaufen = true;
+
+        while (programmSollWeiterLaufen) {
+            System.out.println("""
                 Willkommen bei der Wanderplanungs-App. Planen Sie hier Ihre Wandertouren. 
                 Durch das eingtippen der Zahl welche vor der Option steht.
                 1. Zeige alle Wanderer, die existieren, an.
@@ -30,15 +38,11 @@ public class EasyMain {
                 4. Füge Wanderer einer bestimmten Gruppe hinzu.
                 5. Entferne Wanderer aus einer Gruppe.
                 6. Ordne Gruppe einer Tour zu.
+                7. erstelle eine Tour
                 0. Beende as Programm
                 """);
-        int menueAuswahl = scanner.nextInt();
 
-        boolean programmSollWeiterLaufen = true;
-
-        while (programmSollWeiterLaufen) {
-
-
+            int menueAuswahl = scanner.nextInt();
             switch (menueAuswahl) {
                 case 1 -> zeigeAlleWanderer();
                 case 2 -> sucheWandererNachName();
@@ -58,6 +62,24 @@ public class EasyMain {
     }
 
     private static void sucheWandererNachName(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wie heißt der Wanderer nach dem Sie suchen?");
+        String name = scanner.nextLine();
+        if(easyRepo.getWandererListeNachName(name).isEmpty()){
+            System.out.println("Es gibt keinen Wanderer mit diesen Namen");
+            System.out.println("Möchten Sie einen anderen suchen (J/N)?");
+            String value = scanner.nextLine();
+            if(value.toUpperCase().equals("J")){
+                sucheWandererNachName();
+            }
+            return;
+        }
+        if(easyRepo.getWandererListeNachName(name).size()==1) {
+            System.out.println(easyRepo.getWandererNachName(name));
+        }else {
+            System.out.println(easyRepo.getWandererListeNachName(name));
+        }
+
 
     }
 
@@ -127,6 +149,26 @@ public class EasyMain {
     private static void erstelleTour(){
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Wie ");
+        System.out.println("Wie schwierig soll die Tour sein?");
+        System.out.println("""
+                Wähle aus den Folgenden Schwierigkeitsgraden und gebe den Großbuchstaben ein:
+                A (wenig schwierig)
+                B 
+                C
+                D
+                E
+                F (sehr schwierig)""");
+        String schwierigkeit =  scanner.nextLine();
+
+        Schwierigkeit schwierigkeit1 = Schwierigkeit.valueOf(schwierigkeit.toUpperCase());
+
+        System.out.println("Wie viele Leute sollen maximal teilnehmen dürfen?");
+        int maximaleTeilnehmerZahl = scanner.nextInt();
+
+        Tour tour = new Tour(schwierigkeit1, maximaleTeilnehmerZahl);
+
+        easyRepo.addTour(tour);
+        System.out.println(tour);
+
     }
 }

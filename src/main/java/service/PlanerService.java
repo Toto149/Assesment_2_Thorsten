@@ -13,7 +13,7 @@ import java.util.Map;
 @Service
 @AllArgsConstructor
 public class PlanerService {
-    private final EasyRepo repo;
+    private final EasyRepo repo = new EasyRepo();
 
     public List<Wanderer> getAllWanderer(){
         return repo.getWandererMap().values().stream().toList();
