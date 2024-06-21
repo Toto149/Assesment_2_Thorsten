@@ -1,6 +1,7 @@
 package service;
 
 import lombok.AllArgsConstructor;
+import model.Gruppe;
 import model.Tour;
 import model.Wanderer;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,17 @@ public class PlanerService {
     }
 
     public List<Tour> getAllTouren(){
-        return repo.getTourenMap().values().stream().toList();
+        return repo
+                .getTourenMap()
+                .values()
+                .stream()
+                .toList();
+    }
+    public List<Gruppe> getAlleGruppen(){
+        return repo.getGruppenMap().values().stream().toList();
+    }
+    public List<Tour> getAlleNichtAusgebuchtTouren(){
+        return repo.getTourenDieNichtAusgebuchtSind();
     }
 
     public Wanderer getWandererById(String id){
@@ -36,7 +47,12 @@ public class PlanerService {
         return true;
     }
 
-    public removeWandererVonGruppe(String id){
-        repo.ge
+    public boolean removeWandererVonGruppe(String wandererId, String gruppenId){
+        return repo.removeWandererAusGruppe(wandererId, gruppenId);
+
+    }
+
+    public boolean ordneGruppeEinerTourHinzu(String tourId, String gruppenId){
+        return repo.addGruppeZurTour(gruppenId, tourId);
     }
 }
