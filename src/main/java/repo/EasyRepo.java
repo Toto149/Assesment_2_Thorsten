@@ -39,5 +39,13 @@ public class EasyRepo {
                 .stream()
                 .filter(tour -> !tour.isAusgebucht())
                 .toList();
+
+    }
+
+    public boolean removeWandererAusGruppe(String wandererId, String gruppenId){
+        Gruppe gruppe = gruppenMap.get(gruppenId);
+
+        return gruppe.entferneWanderer(wandererId);
+
     }
 }
