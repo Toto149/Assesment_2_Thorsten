@@ -22,14 +22,7 @@ public class EasyMain {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-
-
-
-
-        boolean programmSollWeiterLaufen = true;
-
-        while (programmSollWeiterLaufen) {
-            System.out.println("""
+        System.out.println("""
                 Willkommen bei der Wanderplanungs-App. Planen Sie hier Ihre Wandertouren. 
                 Durch das eingtippen der Zahl welche vor der Option steht.
                 1. Zeige alle Wanderer, die existieren, an.
@@ -42,6 +35,14 @@ public class EasyMain {
                 0. Beende as Programm
                 """);
 
+
+
+
+        boolean programmSollWeiterLaufen = true;
+
+        while (programmSollWeiterLaufen) {
+
+            System.out.println("Wähle eine Option");
             int menueAuswahl = scanner.nextInt();
             switch (menueAuswahl) {
                 case 1 -> zeigeAlleWanderer();
@@ -89,15 +90,16 @@ public class EasyMain {
 
     private static void entferneWandererAusGruppeNachId(){
         Scanner scanner = new Scanner(System.in);
-        //Frage nach der Id des Wanderers
-        System.out.println("Welche Id hat der Wanderer den du entfernen möchtest?");
-        System.out.println(easyRepo.getWandererMap().values());
-        String wandererId = scanner.nextLine();
 
         //Frage nach der Id der Gruppe
         System.out.println("Welche Id hat die Gruppe aus der du den Wanderer enfernen möchtest");
         System.out.println(easyRepo.getGruppenMap().values());
         String gruppenId = scanner.nextLine();
+        //Frage nach der Id des Wanderers
+        System.out.println("Welche Id hat der Wanderer den du entfernen möchtest?");
+        System.out.println(easyRepo.getWandererMap().values());
+        String wandererId = scanner.nextLine();
+
 
         boolean istGeloescht = service.removeWandererVonGruppe(wandererId,gruppenId);
 
@@ -134,16 +136,13 @@ public class EasyMain {
 
         System.out.println("Wie heißt der Wanderer den du hinzufügen möchtest?");
         String name = scanner.nextLine();
-        System.out.println("Welcher Gruppe soll der Wanderer zugehören?");
+        System.out.println("Welcher Gruppe soll der Wanderer zugehören (Gebe die GruppenId an?");
         System.out.println(service.getAlleGruppen());
         List<Gruppe> gruppen = new ArrayList<>();
         String gruppenId = scanner.nextLine();
 
         gruppen.add((Gruppe) easyRepo.getGruppeById(gruppenId));
 
-
-        String id = UUID.randomUUID().toString();
-        Wanderer wanderer = new Wanderer(id,name, gruppen);
     }
 
     private static void erstelleTour(){

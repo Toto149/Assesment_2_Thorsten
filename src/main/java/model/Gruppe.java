@@ -32,5 +32,8 @@ public class Gruppe {
                 .getFirst();
         return mitglieder.remove(wandererDerEntferntWird);
     }
-
+    @Override
+    public String toString(){
+        return "Id: " + this.id +"\nMitglieder: \n" + mitglieder.toString();
+    }
 }

@@ -25,4 +25,16 @@ public class Wanderer {
     public boolean addGruppen(Gruppe gruppe){
         return gruppen.add(gruppe);
     }
+
+    public String toString(){
+        StringBuilder str = new StringBuilder("Id: " + this.id + "\n");
+        str.append("Name: " + name).append(",\n");
+        int j = 1;
+        for(Gruppe gr : gruppen){
+            str.append("Gruppe "+j)
+                    .append(gr.toString().replace("[","").replace("]","")).append("\n");
+        }
+
+        return str.toString().replace("[","").replace(",","");
+    }
 }
