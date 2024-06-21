@@ -15,4 +15,12 @@ public class Wanderer {
     private List<Gruppe> gruppen;
     private List<Tour> vergangeneTouren;
 
+
+    public boolean addVergangeneTour(Tour tour){
+        return vergangeneTouren.add(tour);
+    }
+
+    public boolean addGruppen(Gruppe gruppe){
+        return gruppen.add(gruppe);
+    }
 }
