@@ -10,13 +10,12 @@ import model.Wanderer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Data
 public class EasyRepo {
-    private Map<String, Tour> tourenMap;
-    private Map<String, Wanderer> wandererMap;
-    private Map<String, Gruppe> gruppenMap;
+    private HashMap<String, Tour> tourenMap;
+    private HashMap<String, Wanderer> wandererMap;
+    private HashMap<String, Gruppe> gruppenMap;
 
 
     public EasyRepo() {
@@ -71,8 +70,12 @@ public class EasyRepo {
     public boolean addGruppeZurTour(String gruppenId, String tourId){
         Tour tour = tourenMap.get(tourId);
         Gruppe gruppe = gruppenMap.get(gruppenId);
-
-        return tour.addGruppe(gruppe);
+        List<Gruppe> gruppen = tour.getTeilnehmendeGruppen();
+        boolean added = tour.addGruppe(gruppe);
+        tour.setTeilnehmendeGruppen(gruppen);
+        tourenMap.replace(tourId,tour);
+        setTourenMap(tourenMap);
+        return added;
     }
 
     public List<Tour> getTourenDieNichtAusgebuchtSind(){
@@ -92,7 +95,9 @@ public class EasyRepo {
 
         boolean istGeloescht = gruppe.entferneWanderer(wandererId);
         gruppenMap.remove(gruppenId);
-        gruppenMap.put(gruppenId,gruppe);
+        gruppenMap.put(gruppenId,gruppe); // Obwohl printen bestätigt das die Aktion funktioniert.
+        this.setGruppenMap(gruppenMap); //Aus irgendeinem Grund will der den Stand nicht speichern (Wenn das Programm nicht unterbrochen wird).
+
         return istGeloescht;
     }
 
