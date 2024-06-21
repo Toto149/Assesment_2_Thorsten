@@ -3,8 +3,8 @@ package controller;
 import lombok.RequiredArgsConstructor;
 import model.Wanderer;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import service.PlanerService;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlanerController {
 
-    private final Service service;
+    private final PlanerService service;
 
-    @GetMapping("wanderer/get")
+    @GetMapping("/wanderer/get")
     public List<Wanderer> getAllWanderer(){
         return service.getAllWanderer();
     }
